@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<title>MYmate 團隊責任定位（架構 v2.0）</title>
+<style>
+:root{--ink:#12303F;--line:#DDE5EA;--tx:#1F2A33;--tx2:#5A6B76;--tx3:#8FA3AF;--wash:#EDF2F5;
+ --claire:#1E7BB8;--hk:#3E8E24;--wy:#7B4FB5;--pc:#B07C10;--none:#B03A26;}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 18px 60px;background:#fff;color:var(--tx);
+ font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+.wrap{max-width:1500px;margin:0 auto}
+h1{font-size:21px;font-weight:600;margin:0 0 4px}
+.sub{font-size:13px;color:var(--tx2);margin:0 0 16px;line-height:1.7}
+.people{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.p{padding:9px 16px;border-radius:20px;border:1.5px solid var(--line);background:#fff;cursor:pointer;
+ font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:7px;transition:.15s}
+.p .dot{width:10px;height:10px;border-radius:50%}
+.p:hover{border-color:var(--tx3)} .p.on{color:#fff}
+.p[data-p=all].on{background:var(--ink);border-color:var(--ink)}
+.p[data-p=claire].on{background:var(--claire);border-color:var(--claire)}
+.p[data-p=hk].on{background:var(--hk);border-color:var(--hk)}
+.p[data-p=wy].on{background:var(--wy);border-color:var(--wy)}
+.p[data-p=pc].on{background:var(--pc);border-color:var(--pc)}
+.p[data-p=none].on{background:var(--none);border-color:var(--none)}
+.stage{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;margin-bottom:14px;overflow:auto}
+.stage svg{width:100%;height:auto;display:block}
+.hl{display:none} .hl.show{display:inline}
+.detail{background:#fff;border-radius:14px;border:1px solid var(--line);padding:18px 20px;display:none}
+.detail.show{display:block}
+.dh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.dh .nm{font-size:18px;font-weight:600}
+.dh .role{font-size:12.5px;color:var(--tx2);background:var(--wash);padding:3px 10px;border-radius:12px}
+.dsub{font-size:13.5px;color:var(--tx2);margin:0 0 14px;line-height:1.75}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:880px){.grid2{grid-template-columns:1fr}}
+.sec{margin-bottom:13px}
+.sec h3{font-size:11.5px;color:var(--tx3);letter-spacing:.05em;margin:0 0 6px;font-weight:600}
+.sec ul{margin:0;padding-left:17px;font-size:13px;line-height:1.85}
+code{font-family:ui-monospace,monospace;font-size:11.5px;background:var(--wash);padding:1px 5px;border-radius:4px}
+.iface{border-left:3px solid var(--line);padding-left:11px;font-size:12.5px;line-height:1.85;color:var(--tx2)}
+.iface b{color:var(--tx);font-weight:600}
+.flag{background:#FDF7EA;border:1px solid #EBDDBE;border-radius:9px;padding:11px 13px;font-size:12.5px;line-height:1.8;margin-top:10px}
+.flag b{color:#8A6512}
+.note{max-width:1500px;margin:14px auto 0;font-size:11.5px;color:#6B7C87;line-height:1.8}
+</style></head><body><div class="wrap">
+<h1>MYmate 團隊責任定位（架構 v2.0）</h1>
+<p class="sub">點下方人名，該人負責的模組會亮起</p>
+<div class="people">
+ <button class="p on" data-p="all"><span class="dot" style="background:var(--ink)"></span>整體</button>
+ <button class="p" data-p="claire"><span class="dot" style="background:var(--claire)"></span>Claire</button>
+ <button class="p" data-p="hk"><span class="dot" style="background:var(--hk)"></span>宏冠</button>
+ <button class="p" data-p="wy"><span class="dot" style="background:var(--wy)"></span>宛芸</button>
+ <button class="p" data-p="pc"><span class="dot" style="background:var(--pc)"></span>PC</button>
+ <button class="p" data-p="none"><span class="dot" style="background:var(--none)"></span>待指定</button>
+</div>
+<div class="stage"><svg viewBox="0 0 2200 1230" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, PingFang TC, sans-serif">
+
+<defs>
+<marker id="aB" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6BA0D4"/></marker>
+<marker id="aP" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#9C77CB"/></marker>
+<marker id="aG" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#57B79A"/></marker>
+<marker id="aT" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#43ADA8"/></marker>
+<marker id="aW" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#AEC2D2"/></marker>
+</defs>
+<rect width="2200" height="1340" fill="#ffffff"/>
+<text x="1100" y="58" text-anchor="middle" fill="#12303F" font-size="36" font-weight="700">MYmate 團隊責任定位（架構 v2.0）</text>
+<rect x="40" y="150" width="1370" height="1010" rx="16" fill="none" stroke="#8FB0D0" stroke-width="2.5" stroke-dasharray="12 8"/>
+<text x="92" y="192" text-anchor="start" fill="#2E6FA8" font-size="26" font-weight="700">NPO 端（執行在家）</text>
+<rect x="640" y="200" width="620" height="148" rx="12" fill="#F2F7FB" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="950" y="240" text-anchor="middle" fill="#12303F" font-size="23" font-weight="700">NPO Worker</text>
+<text x="950" y="268" text-anchor="middle" fill="#5A6B76" font-size="16">用自己習慣的 AI（Claude／Gemini…）</text>
+<rect x="670" y="284" width="560" height="46" rx="10" fill="#F2F7FB" stroke="#D2A02F" stroke-width="1.5"/>
+<text x="950" y="313" text-anchor="middle" fill="#9C6B08" font-size="18" font-weight="700">工作區＋Skill 包（本地執行）</text>
+<text x="178" y="300" text-anchor="middle" fill="#6E3EAE" font-size="16" font-weight="700">協作產出回存</text>
+<rect x="88" y="318" width="180" height="34" rx="8" fill="#F2F7FB" stroke="#D2A02F" stroke-width="1.5"/>
+<text x="178" y="341" text-anchor="middle" fill="#9C6B08" font-size="14" font-weight="700">標記：agent 生成</text>
+<path d="M638 306 C420 306 232 392 232 570" fill="none" stroke="#9C77CB" stroke-width="2.5" marker-end="url(#aP)"/>
+<text x="178" y="372" text-anchor="middle" fill="#8593A0" font-size="12">內容回存 → 走資料流</text>
+<rect x="260" y="358" width="1122" height="106" rx="12" fill="#F6F1FC" stroke="#9C77CB" stroke-width="2" stroke-dasharray="9 6"/>
+<text x="282" y="392" text-anchor="start" fill="#6E3EAE" font-size="17" font-weight="700">身份與權限驗證</text>
+<text x="282" y="416" text-anchor="start" fill="#5A6B76" font-size="12.5">授權在此發生</text>
+<text x="282" y="438" text-anchor="start" fill="#5A6B76" font-size="12.5">執法在下游兩點</text>
+<rect x="470" y="372" width="250" height="78" rx="10" fill="#ffffff" stroke="#9C77CB" stroke-width="1.8"/>
+<text x="595" y="398" text-anchor="middle" fill="#6E3EAE" font-size="15" font-weight="700">Admin 授權・資格核驗</text>
+<text x="595" y="420" text-anchor="middle" fill="#1F2A33" font-size="12.5">組織身份・資料源授權</text>
+<rect x="740" y="372" width="250" height="78" rx="10" fill="#ffffff" stroke="#9C77CB" stroke-width="1.8" stroke-dasharray="7 5"/>
+<text x="865" y="398" text-anchor="middle" fill="#6E3EAE" font-size="15" font-weight="700">安裝包（發身份，一次）</text>
+<text x="865" y="420" text-anchor="middle" fill="#1F2A33" font-size="12.5">身份＝授權載體，非執行身分</text>
+<rect x="1010" y="372" width="290" height="78" rx="10" fill="#ffffff" stroke="#9C77CB" stroke-width="1.8"/>
+<text x="1155" y="398" text-anchor="middle" fill="#6E3EAE" font-size="15" font-weight="700">MCP（日常溝通）</text>
+<text x="1155" y="420" text-anchor="middle" fill="#1F2A33" font-size="12.5">查詢級・read-only・scope 過濾在此</text>
+<line x1="865" y1="348" x2="865" y2="368" stroke="#9C77CB" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#aP)"/>
+<line x1="1155" y1="348" x2="1155" y2="368" stroke="#9C77CB" stroke-width="2.8" marker-end="url(#aP)" marker-start="url(#aP)"/>
+<rect x="72" y="478" width="1310" height="670" rx="16" fill="none" stroke="#AEC2D2" stroke-width="2" stroke-dasharray="9 6"/>
+<text x="92" y="506" text-anchor="start" fill="#5A6B76" font-size="17" font-weight="700">NPO 組織管理・資料主權</text>
+<text x="1362" y="506" text-anchor="end" fill="#8593A0" font-size="13">執法點：寫入資格在 Module B ｜ 讀取 scope 在 MCP 出口</text>
+<rect x="88" y="524" width="690" height="600" rx="14" fill="#F5F9FD" stroke="#A9C6E0" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="106" y="552" text-anchor="start" fill="#2E6FA8" font-size="17" font-weight="700">① 資料流｜Admin 建置・供給</text>
+<rect x="792" y="524" width="574" height="600" rx="14" fill="#EDF8F6" stroke="#43ADA8" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="1348" y="552" text-anchor="end" fill="#1F7A75" font-size="17" font-weight="700">② 使用流｜Worker 使用・回饋</text>
+<rect x="420" y="524" width="660" height="600" rx="12" fill="none" stroke="#D2A02F" stroke-width="2.5"/>
+<text x="440" y="552" text-anchor="start" fill="#9C6B08" font-size="18" font-weight="700">MYmate Client</text>
+<rect x="106" y="578" width="255" height="118" rx="12" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="233" y="616" text-anchor="middle" fill="#12303F" font-size="19" font-weight="700">既有資料源</text>
+<text x="233" y="644" text-anchor="middle" fill="#1F2A33" font-size="13.5">不動它・不影響現有系統</text>
+<text x="233" y="712" text-anchor="middle" fill="#2E6FA8" font-size="13" font-weight="700">Data Lakehouse</text>
+<rect x="106" y="722" width="255" height="130" rx="12" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="233" y="762" text-anchor="middle" fill="#12303F" font-size="19" font-weight="700">Raw 永存層</text>
+<text x="233" y="790" text-anchor="middle" fill="#1F2A33" font-size="13.5">原始・可重跑・永存</text>
+<rect x="106" y="878" width="255" height="146" rx="12" fill="#EAF2F9" stroke="#43ADA8" stroke-width="2"/>
+<text x="233" y="910" text-anchor="middle" fill="#12303F" font-size="19" font-weight="700">多形態知識庫</text>
+<text x="233" y="932" text-anchor="middle" fill="#1F7A75" font-size="12.5" font-weight="700">形態可插拔・判斷後才進來</text>
+<line x1="122" y1="942" x2="345" y2="942" stroke="#43ADA8" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="233" y="964" text-anchor="middle" fill="#1F2A33" font-size="13">非結構化：文件・對話</text>
+<text x="233" y="986" text-anchor="middle" fill="#1F2A33" font-size="13">結構化：資料表＋業務詞彙</text>
+<rect x="440" y="578" width="250" height="118" rx="10" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="565" y="612" text-anchor="middle" fill="#9C6B08" font-size="17" font-weight="700">Module A｜Connector</text>
+<text x="565" y="640" text-anchor="middle" fill="#1F2A33" font-size="13.5">取資料・不改來源</text>
+<rect x="440" y="722" width="250" height="130" rx="10" fill="#EAF2F9" stroke="#6BA0D4" stroke-width="2.5"/>
+<text x="565" y="754" text-anchor="middle" fill="#9C6B08" font-size="16" font-weight="700">Module B｜Load・單一寫入口</text>
+<text x="565" y="780" text-anchor="middle" fill="#1F2A33" font-size="13.5">原封不動寫入 Raw 永存</text>
+<text x="565" y="802" text-anchor="middle" fill="#2E6FA8" font-size="13" font-weight="700">資格關卡：沒過＝一個字都不寫</text>
+<rect x="440" y="878" width="250" height="146" rx="10" fill="#EAF2F9" stroke="#9C77CB" stroke-width="2.5"/>
+<text x="565" y="910" text-anchor="middle" fill="#9C6B08" font-size="17" font-weight="700">Module C｜判斷關卡</text>
+<text x="565" y="934" text-anchor="middle" fill="#6E3EAE" font-size="13" font-weight="700">判「該不該收」</text>
+<text x="565" y="956" text-anchor="middle" fill="#5A6B76" font-size="12.5">判不準→留 raw、等人決定</text>
+<text x="565" y="978" text-anchor="middle" fill="#1F2A33" font-size="12.5">結構化側：無定義即拒答</text>
+<rect x="106" y="1046" width="584" height="58" rx="9" fill="#ffffff" stroke="#A9C6E0" stroke-width="1.3"/>
+<text x="122" y="1070" text-anchor="start" fill="#1F2A33" font-size="13.5">驅動者：Admin　·　節奏：排程／批次　·　產出：組織知識</text>
+<text x="122" y="1092" text-anchor="start" fill="#8593A0" font-size="12.5">執行位置（hosting_mode）：自建＝預設建議／代管＝allowlist 限定</text>
+<rect x="810" y="578" width="250" height="118" rx="10" fill="#EDF8F6" stroke="#43ADA8" stroke-width="1.8"/>
+<text x="935" y="612" text-anchor="middle" fill="#1F7A75" font-size="17" font-weight="700">使用訊號</text>
+<text x="935" y="640" text-anchor="middle" fill="#1F2A33" font-size="13.5">怎麼用・成效如何</text>
+<rect x="810" y="722" width="250" height="130" rx="10" fill="#EDF8F6" stroke="#D2A02F" stroke-width="2"/>
+<text x="935" y="754" text-anchor="middle" fill="#9C6B08" font-size="17" font-weight="700">Evaluation</text>
+<text x="935" y="780" text-anchor="middle" fill="#1F2A33" font-size="13.5">去識別化＋審核後才上行</text>
+<text x="935" y="802" text-anchor="middle" fill="#5A6B76" font-size="12.5">只放行摘要與改良，不放行內容</text>
+<rect x="810" y="878" width="250" height="146" rx="10" fill="#EDF8F6" stroke="#43ADA8" stroke-width="2.5"/>
+<text x="935" y="908" text-anchor="middle" fill="#1F7A75" font-size="17" font-weight="700">Skill 優化</text>
+<text x="935" y="932" text-anchor="middle" fill="#1F2A33" font-size="13">成效評測・改良・自建沉澱</text>
+<text x="935" y="956" text-anchor="middle" fill="#1F7A75" font-size="13" font-weight="700">候選→評測閘門→版本化</text>
+<text x="935" y="978" text-anchor="middle" fill="#5A6B76" font-size="12.5">改良去識別化後才上行</text>
+<rect x="1090" y="878" width="255" height="146" rx="12" fill="#EAF2F9" stroke="#43ADA8" stroke-width="2"/>
+<text x="1217" y="912" text-anchor="middle" fill="#12303F" font-size="18" font-weight="700">組織 Skill Library</text>
+<text x="1217" y="940" text-anchor="middle" fill="#1F2A33" font-size="13.5">Server 下載的＋組織自己的</text>
+<text x="1217" y="964" text-anchor="middle" fill="#1F2A33" font-size="13.5">全域／團隊／私有</text>
+<rect x="810" y="1046" width="536" height="58" rx="9" fill="#ffffff" stroke="#43ADA8" stroke-width="1.3"/>
+<text x="826" y="1070" text-anchor="start" fill="#1F2A33" font-size="13.5">驅動者：Worker　·　節奏：每次對話</text>
+<text x="826" y="1092" text-anchor="start" fill="#8593A0" font-size="12.5">產出：更好用的 skill、更準的知識</text>
+<line x1="365" y1="637" x2="436" y2="637" stroke="#AEC2D2" stroke-width="2.5" marker-end="url(#aW)"/>
+<text x="400" y="624" text-anchor="middle" fill="#5A6B76" font-size="14">讀取</text>
+<line x1="565" y1="700" x2="565" y2="718" stroke="#AEC2D2" stroke-width="2.5" marker-end="url(#aW)"/>
+<line x1="436" y1="787" x2="365" y2="787" stroke="#AEC2D2" stroke-width="2.5" marker-end="url(#aW)"/>
+<text x="400" y="774" text-anchor="middle" fill="#5A6B76" font-size="14">寫入原始</text>
+<line x1="565" y1="856" x2="565" y2="874" stroke="#AEC2D2" stroke-width="2.5" marker-end="url(#aW)"/>
+<line x1="363" y1="848" x2="436" y2="894" stroke="#6BA0D4" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#aB)"/>
+<text x="408" y="874" text-anchor="middle" fill="#2E6FA8" font-size="13">可重跑</text>
+<line x1="436" y1="951" x2="365" y2="951" stroke="#43ADA8" stroke-width="2.5" marker-end="url(#aT)"/>
+<text x="400" y="938" text-anchor="middle" fill="#5A6B76" font-size="14">判斷後產出</text>
+<line x1="595" y1="454" x2="570" y2="574" stroke="#9C77CB" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#aP)"/>
+<line x1="1060" y1="452" x2="950" y2="572" stroke="#9C77CB" stroke-width="2.2" marker-end="url(#aP)"/>
+<line x1="935" y1="700" x2="935" y2="718" stroke="#43ADA8" stroke-width="2.5" marker-end="url(#aT)"/>
+<line x1="935" y1="856" x2="935" y2="874" stroke="#43ADA8" stroke-width="2.5" marker-end="url(#aT)"/>
+<line x1="1064" y1="951" x2="1086" y2="951" stroke="#43ADA8" stroke-width="2.5" marker-end="url(#aT)"/>
+<line x1="1217" y1="874" x2="1217" y2="458" stroke="#43ADA8" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#aT)"/>
+<text x="1243" y="700" text-anchor="middle" fill="#1F7A75" font-size="13" transform="rotate(-90 1243 700)">知識與 skill 皆經 MCP 取用（read-only）</text>
+<rect x="1470" y="215" width="110" height="900" rx="14" fill="#F2F7FB" stroke="#D2A02F" stroke-width="2"/>
+<text x="1525" y="256" text-anchor="middle" fill="#9C6B08" font-size="20" font-weight="700">API</text>
+<text x="1525" y="284" text-anchor="middle" fill="#9C6B08" font-size="20" font-weight="700">Gateway</text>
+<text x="1520" y="700" text-anchor="middle" fill="#5A6B76" font-size="16" transform="rotate(-90 1520 700)">跨界流量一律經此・全程稽核</text>
+<rect x="1640" y="150" width="520" height="1010" rx="16" fill="none" stroke="#D2A02F" stroke-width="2.5" stroke-dasharray="12 8"/>
+<text x="1900" y="192" text-anchor="middle" fill="#9C6B08" font-size="26" font-weight="700">MYmate Server（學習上雲）</text>
+<rect x="1660" y="235" width="105" height="860" rx="10" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="1700" y="665" text-anchor="middle" fill="#9C6B08" font-size="20" font-weight="700" transform="rotate(-90 1700 665)">Control Plane</text>
+<text x="1736" y="665" text-anchor="middle" fill="#5A6B76" font-size="15" transform="rotate(-90 1736 665)">遠端維運每顆 Client</text>
+<rect x="1795" y="235" width="350" height="180" rx="12" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="1970" y="310" text-anchor="middle" fill="#9C6B08" font-size="21" font-weight="700">Module D｜Skill Library</text>
+<text x="1970" y="346" text-anchor="middle" fill="#1F2A33" font-size="17">審核・上架・推播</text>
+<rect x="1795" y="455" width="350" height="180" rx="12" fill="#EAF2F9" stroke="#D2A02F" stroke-width="2"/>
+<text x="1970" y="530" text-anchor="middle" fill="#9C6B08" font-size="21" font-weight="700">Skill Enhance Agent</text>
+<text x="1970" y="566" text-anchor="middle" fill="#1F2A33" font-size="17">用進化數據自動改版 Skill</text>
+<rect x="1795" y="675" width="350" height="180" rx="12" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="1970" y="738" text-anchor="middle" fill="#9C6B08" font-size="21" font-weight="700">進化數據層</text>
+<text x="1970" y="774" text-anchor="middle" fill="#1F2A33" font-size="17">上雲的唯一內容——</text>
+<text x="1970" y="804" text-anchor="middle" fill="#1F2A33" font-size="17">越多 NPO 用，模組越聰明</text>
+<rect x="1795" y="895" width="350" height="180" rx="12" fill="#EAF2F9" stroke="#A9C6E0" stroke-width="1.5"/>
+<text x="1970" y="975" text-anchor="middle" fill="#9C6B08" font-size="21" font-weight="700">成效／Token 儀表</text>
+<text x="1970" y="1011" text-anchor="middle" fill="#1F2A33" font-size="17">僅摘要，不含內容</text>
+<line x1="1791" y1="325" x2="1771" y2="325" stroke="#6BA0D4" stroke-width="2.5" marker-end="url(#aB)"/>
+<line x1="1970" y1="450" x2="1970" y2="420" stroke="#57B79A" stroke-width="2.8" marker-end="url(#aG)"/>
+<text x="1996" y="442" text-anchor="start" fill="#2A7F63" font-size="16">改版</text>
+<line x1="1970" y1="670" x2="1970" y2="640" stroke="#57B79A" stroke-width="2.8" marker-end="url(#aG)"/>
+<line x1="1769" y1="765" x2="1791" y2="765" stroke="#57B79A" stroke-width="2.8" marker-end="url(#aG)"/>
+<line x1="1769" y1="985" x2="1791" y2="985" stroke="#43ADA8" stroke-width="2.8" marker-end="url(#aT)"/>
+<line x1="1655" y1="637" x2="1084" y2="637" stroke="#6BA0D4" stroke-width="3" marker-end="url(#aB)"/>
+<circle cx="1525" cy="637" r="17" fill="#2E6FA8"/><text x="1525" y="644" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700">2</text>
+<line x1="1064" y1="752" x2="1655" y2="752" stroke="#57B79A" stroke-width="3" marker-end="url(#aG)"/>
+<circle cx="1525" cy="752" r="17" fill="#2A7F63"/><text x="1525" y="759" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700">3</text>
+<line x1="1064" y1="820" x2="1655" y2="820" stroke="#43ADA8" stroke-width="3" marker-end="url(#aT)"/>
+<circle cx="1525" cy="820" r="17" fill="#1F7A75"/><text x="1525" y="827" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700">4</text>
+<line x1="1655" y1="948" x2="1349" y2="948" stroke="#6BA0D4" stroke-width="3" marker-end="url(#aB)"/>
+<circle cx="1525" cy="948" r="17" fill="#2E6FA8"/><text x="1525" y="955" text-anchor="middle" fill="#ffffff" font-size="17" font-weight="700">1</text>
+<g font-size="18" fill="#3E4C57">
+<circle cx="92" cy="1200" r="15" fill="#2E6FA8"/><text x="92" y="1206" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">1</text>
+<text x="117" y="1207">Server skill 下載 → 組織 Skill Library</text>
+<circle cx="600" cy="1200" r="15" fill="#2E6FA8"/><text x="600" y="1206" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">2</text>
+<text x="625" y="1207">遠端維運</text>
+<circle cx="740" cy="1200" r="15" fill="#2A7F63"/><text x="740" y="1206" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">3</text>
+<text x="765" y="1207">進化數據＋skill 改良上行</text>
+<circle cx="1090" cy="1200" r="15" fill="#1F7A75"/><text x="1090" y="1206" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">4</text>
+<text x="1115" y="1207">計量摘要</text>
+<text x="1250" y="1207" fill="#2A7F63" font-weight="700">越用越聰明：③ 上行 → 自動改版 → ① 下載回家</text>
+</g>
+
+<g class="hl" data-o="claire">
+<rect x="413" y="517" width="674" height="614" rx="13" fill="#1E7BB8" fill-opacity="0" stroke="#1E7BB8" stroke-width="4.5"/>
+<rect x="433" y="571" width="264" height="132" rx="13" fill="#1E7BB8" fill-opacity="0.10" stroke="#1E7BB8" stroke-width="4.5"/>
+<rect x="433" y="715" width="264" height="144" rx="13" fill="#1E7BB8" fill-opacity="0.10" stroke="#1E7BB8" stroke-width="4.5"/>
+<rect x="733" y="365" width="264" height="92" rx="13" fill="#1E7BB8" fill-opacity="0.10" stroke="#1E7BB8" stroke-width="4.5"/>
+</g>
+<g class="hl" data-o="hk">
+<rect x="1003" y="365" width="304" height="92" rx="13" fill="#3E8E24" fill-opacity="0.10" stroke="#3E8E24" stroke-width="4.5"/>
+<rect x="433" y="871" width="264" height="160" rx="13" fill="#3E8E24" fill-opacity="0.10" stroke="#3E8E24" stroke-width="4.5"/>
+</g>
+<g class="hl" data-o="wy">
+<rect x="1788" y="228" width="364" height="194" rx="13" fill="#7B4FB5" fill-opacity="0.10" stroke="#7B4FB5" stroke-width="4.5"/>
+<rect x="803" y="715" width="264" height="144" rx="13" fill="#7B4FB5" fill-opacity="0.10" stroke="#7B4FB5" stroke-width="4.5"/>
+<rect x="803" y="871" width="264" height="160" rx="13" fill="#7B4FB5" fill-opacity="0.10" stroke="#7B4FB5" stroke-width="4.5"/>
+</g>
+<g class="hl" data-o="pc">
+<rect x="633" y="193" width="634" height="162" rx="13" fill="#B07C10" fill-opacity="0.10" stroke="#B07C10" stroke-width="4.5"/>
+<rect x="1788" y="228" width="364" height="194" rx="13" fill="#B07C10" fill-opacity="0.10" stroke="#B07C10" stroke-width="4.5"/>
+</g>
+<g class="hl" data-o="none">
+<rect x="1788" y="448" width="364" height="194" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="1788" y="668" width="364" height="194" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="1788" y="888" width="364" height="194" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="1653" y="228" width="119" height="874" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="1463" y="208" width="124" height="914" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="803" y="571" width="264" height="132" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+<rect x="463" y="365" width="264" height="92" rx="13" fill="#B03A26" fill-opacity="0.10" stroke="#B03A26" stroke-width="4.5" stroke-dasharray="10 6"/>
+</g>
+</svg></div>
+
+<div class="detail" id="d-claire">
+ <div class="dh"><span class="nm" style="color:var(--claire)">Claire</span><span class="role">→ 架構師</span><span class="role">穩定且正確的運作環境</span></div>
+ <p class="dsub"><b>Client 的骨架。</b>從「裝得起來」到「資料正確落地」這一整段——唯一橫跨<b>安裝 → 取數 → 寫入</b>的人。</p>
+ <div class="grid2"><div>
+  <div class="sec"><h3>圖上亮起</h3><ul>
+   <li><b>MYmate Client 整體架構串接</b>（外框・只描邊，內含他人模組）</li>
+   <li><b>Module A｜Connector</b>——取數、不改來源</li>
+   <li><b>Module B｜Load・單一寫入口</b>——沒過＝一個字都不寫</li>
+   <li><b>安裝包</b>（發身份，一次）</li></ul></div>
+  <div class="sec"><h3>repo</h3><ul><li><code>client</code>、平台基礎設施（Cloud Run）</li></ul></div>
+ </div><div>
+  <div class="sec"><h3>交接介面</h3><div class="iface">
+   <b>→ 宏冠</b>：Raw 永存層＝Module C 的輸入；安裝包裡的 MCP 端點由宏冠定義<br>
+   <b>← 宏冠</b>：身份格式與權限模型（她只負責<b>攜帶</b>，不負責<b>判定</b>）<br>
+   <b>→ 宛芸</b>：Client 執行環境、skill 的載入方式<br>
+   <b>← PC</b>：治理規則由規格定，她實作成 gate</div></div>
+  <div class="sec"><h3>O3 成長</h3><ul><li>KR「主導 1 份跨層架構決策文件並被採用」——<code>hosting_mode</code> ＋身分兩層拆分已具此性質，<b>可直接認列</b></li></ul></div>
+ </div></div>
+ <div class="flag"><b>單點風險：</b>Client 裝不裝得起來、資料正不正確，都在她一個人身上。另外<b>安裝包歸她、包裡的權限歸宏冠</b>——這個切法乾淨（載體 vs 判定），但兩人必須對同一份身份格式，否則安裝包會發出 MCP 不認的身份。</div>
+</div>
+
+<div class="detail" id="d-hk">
+ <div class="dh"><span class="nm" style="color:var(--hk)">宏冠</span><span class="role">→ senior DE</span><span class="role">AI 小白可近的工具嫁接</span></div>
+ <p class="dsub"><b>知識庫的兩道門，都在他手上。</b>Module C 決定<b>什麼能進來</b>，MCP 決定<b>什麼能出去</b>——這是全圖最需要規格明確的位置。</p>
+ <div class="grid2"><div>
+  <div class="sec"><h3>圖上亮起</h3><ul>
+   <li><b>MCP（日常溝通）</b>——查詢級・read-only・<b>scope 過濾在此</b></li>
+   <li><b>資料權限設計</b>——含在 MCP 內，不是獨立模組</li>
+   <li><b>Module C｜判斷關卡</b>——判「該不該收」，不決定誰看得到</li></ul></div>
+  <div class="sec"><h3>repo</h3><ul><li><code>data-mcp</code>、<code>client</code>（判斷關卡）</li></ul></div>
+ </div><div>
+  <div class="sec"><h3>交接介面</h3><div class="iface">
+   <b>← Claire</b>：從 Raw 永存層讀；判斷後產出寫進知識庫<br>
+   <b>→ Claire</b>：MCP 端點與身份格式（要寫進安裝包）<br>
+   <b>→ 宛芸</b>：MCP 工具集與回傳格式即契約；使用訊號經 MCP 回傳<br>
+   <b>⚠ 與 Claire 共管</b>：MCP Entry 單一 vs 多個 server</div></div>
+  <div class="sec"><h3>O3 成長</h3><ul><li>KR「將 1 個資料處理流程封裝成可重用 Agent 模組並被另一情境調用」——MCP 的跨 client 標準化正是此事</li></ul></div>
+ </div></div>
+ <div class="flag"><b>兩道門一個人守，要小心的是判準混用。</b>Module C 判的是<b>內容價值</b>（該不該收），MCP 判的是<b>可見範圍</b>（誰能看到）——v1.8 才剛把這兩件事分開。同一人負責時最容易又合成一件事，例如在 Module C 就先把「別人不該看的」濾掉，那 scope 就失去單一執法點。</div>
+</div>
+
+<div class="detail" id="d-wy">
+ <div class="dh"><span class="nm" style="color:var(--wy)">宛芸</span><span class="role">→ FDE</span><span class="role">小白 onboarding 與持續進化</span></div>
+ <p class="dsub"><b>「越用越聰明」的整台引擎。</b>使用流上唯一的人，也是<b>唯一橫跨 NPO 端與 Server 端</b>的人——MYmate 相對於「NPO 自己接 AI」的差異化，整條都在她這裡。</p>
+ <div class="grid2"><div>
+  <div class="sec"><h3>圖上亮起</h3><ul>
+   <li><b>Evaluation</b>——去識別化＋審核後才上行；只放行摘要與改良，不放行內容</li>
+   <li><b>Skill 優化</b>——成效評測・改良・自建沉澱；候選→評測閘門→版本化</li>
+   <li><b>Module D｜Skill Library</b>（Server）——與 PC 共管：她的 <b>Data Agent</b> 就是要上架的 skill 本體</li></ul></div>
+  <div class="sec"><h3>repo</h3><ul><li><code>data-agent</code>、<code>mymate-distill</code>、<code>skills</code></li></ul></div>
+ </div><div>
+  <div class="sec"><h3>交接介面</h3><div class="iface">
+   <b>← 宏冠</b>：使用訊號經 MCP 回傳（<b>她的輸入不在自己手上</b>）<br>
+   <b>→ 組織 Skill Library</b>：版本化發佈<br>
+   <b>→ PC</b>：上行的候選；門檻與判準由 PC 定（<b>她的輸出也不在自己手上</b>）<br>
+   <b>⇄ PC（Module D）</b>：PC 定審核判準與上架決策，她提供 Data Agent 這類 skill 本體<br>
+   <b>→ Server</b>：③ 進化數據＋skill 改良上行</div></div>
+  <div class="sec"><h3>O3 成長</h3><ul><li>KR「獨立完成 2 個端對端案例，不需 PC／Claire 中介轉譯」——但她現在的兩塊都在<b>後段</b>，端對端案例需要她能碰到前段與使用者</li></ul></div>
+ </div></div>
+ <div class="flag"><b>輸入不在她手上。</b>使用訊號由宏冠經 MCP 回傳——沒接通，Evaluation 就是空轉。這件事要先給時間表。<br><b>輸出端因 Module D 共管而改善：</b>她不只是把候選丟出去等人決定，而是在上架端有位置。但共管要講清楚切法——建議 <b>PC 定判準與上架決策、宛芸負責 skill 本體與維護</b>，否則「誰能決定發不發版」會反覆。</div>
+</div>
+
+<div class="detail" id="d-pc">
+ <div class="dh"><span class="nm" style="color:var(--pc)">PC</span><span class="role">PM</span><span class="role">讓 NPO 真的用上</span></div>
+ <p class="dsub"><b>方向、體驗、跨組織治理。</b>不寫程式，但決定「什麼是對的」與「先做哪個」。</p>
+ <div class="grid2"><div>
+  <div class="sec"><h3>圖上亮起</h3><ul>
+   <li><b>NPO Worker</b>——使用者體驗路徑（三段式旅程、第一句話、信任訊息）</li>
+   <li><b>Module D｜Skill Library</b>（Server）——審核・上架・推播；<b>與宛芸共管</b>（PC 定判準與上架決策，宛芸提供 Data Agent 等 skill 本體）</li></ul></div>
+  <div class="sec"><h3>不在圖上，但屬 PC</h3><ul>
+   <li>整體策略、MVP 排序與驗收</li>
+   <li>治理規則：三標籤、去識別化清單、寧可漏收不可誤收</li>
+   <li>UI／UX 定稿、對外（Steve／NPO）</li></ul></div>
+ </div><div>
+  <div class="sec"><h3>交接介面</h3><div class="iface">
+   <b>→ 三人</b>：規格與驗收標準是唯一的「對錯依據」<br>
+   <b>← 宛芸</b>：上行候選；PC 決定過不過<br>
+   <b>← 三人</b>：實作現場的約束回饋<br>
+   <b>原則</b>：實作與規劃衝突時，先假設是規劃沒講清楚</div></div>
+ </div></div>
+ <div class="flag"><b>Module D 有主了，但它不是一次性工作。</b>「審核・上架・推播」是<b>持續勞務</b>——每次有組織投稿都要審一次去識別化。PM 定判準沒問題，實際執行需要 maintainer 人力，這件事排 MVP 解決不了，要編預算。</div>
+</div>
+
+<div class="detail" id="d-none">
+ <div class="dh"><span class="nm" style="color:var(--none)">待指定</span><span class="role">交界與空白</span></div>
+ <p class="dsub">分工出問題永遠在交界處。以下七塊亮起——不是沒人做，是<b>沒說清楚誰做</b>。</p>
+ <div class="grid2"><div><div class="sec"><h3>Server 側（Module D 以外全空）</h3><ul>
+  <li><b>Skill Enhance Agent</b>、<b>進化數據層</b>、<b>成效／Token 儀表</b>、<b>Control Plane</b></li>
+  <li>它們是 Module D 的上下游：沒有進化數據，Module D 沒東西可審；沒有 Control Plane，Client 無法遠端維運。<b>Module D 已由 PC＋宛芸共管，但這四塊仍然沒人。</b></li></ul></div>
+  <div class="sec"><h3>API Gateway</h3><ul><li>跨界流量與全程稽核，未指定。可能屬 Claire 的「整體架構串接」，需確認。</li></ul></div>
+ </div><div><div class="sec"><h3>兩個真交界</h3><ul>
+  <li><b>使用訊號</b>——宏冠傳輸／宛芸使用。<span style="color:var(--tx2)">這是使用流的入口，沒人明確負責 = Evaluation 空轉。</span></li>
+  <li><b>Admin 授權・資格核驗</b>——Claire 安裝／宏冠 權限。</li></ul></div>
+  <div class="sec"><h3>組織資產（是產出，不是模組）</h3><ul>
+  <li>既有資料源／Raw 永存層／多形態知識庫／組織 Skill Library</li>
+  <li>由產生它的模組 owner 負責；但<b>知識庫由宏冠寫入、Skill Library 由宛芸寫入</b>——兩個組織資產分屬不同人，格式與標籤標準要對齊。</li></ul></div>
+ </div></div>
+ <div class="flag"><b>結構性觀察：</b>資料流（①）有兩個人（Claire A/B＋宏冠 C），使用流（②）只有宛芸一人。但<b>使用流才是 MYmate 的差異化</b>——資料串接別人也能做，「越用越聰明」不行。目前的人力配置與差異化來源是相反的。</div>
+</div>
+</div>
+
+<p class="note">
+ MYmate 團隊責任定位（架構 v2.0）v1.0｜2026-08-07｜底圖＝<code>MYmate_架構圖_v2.0_兩條流版.svg</code>（僅移除「今日實作」灰字與讀法帶，模組與契約未改）。<br>
+ 分工由 PC 指定。Claire 的「Client 整體架構串接」以<b>只描邊、不填色</b>表示——外框內含宏冠的 Module C，她負責的是容器與串接，不是裡面每個模組。
+</p>
+
+<script>
+const btns=[...document.querySelectorAll('.p')],hls=[...document.querySelectorAll('.hl')],ds=[...document.querySelectorAll('.detail')];
+btns.forEach(b=>b.onclick=()=>{const p=b.dataset.p;
+ btns.forEach(x=>x.classList.toggle('on',x===b));
+ hls.forEach(h=>h.classList.toggle('show',p!=='all'&&h.dataset.o===p));
+ ds.forEach(d=>d.classList.toggle('show',d.id==='d-'+p));});
+</script></body></html>
